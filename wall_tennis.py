@@ -92,9 +92,11 @@ def main():
     
     # 時間
     time = 0
-    fonto = pg.font.SysFont('nsimsun', 100) # nsimsun meiryo
-    endmessage = fonto.render("Press Enter to Over", True, "white") # 終了後のメッセージ
+    fonto =pg.font.SysFont("nsimsun",70) # nsimsun meiryo
+    fonto2 = pg.font.SysFont('snapitc', 100) #大矢航輔
+    endmessage = fonto2.render("Press Enter to Over", True, "red") # 終了後のメッセージ #大矢航輔
     #time = Time(100, "white", "Press Enter to Over")
+    
 
     overflag = False # ゲームが終了するかの判断のためのフラッグ
 
@@ -116,7 +118,7 @@ def main():
             key_states = pg.key.get_pressed()
             if key_states[pg.K_RETURN] == True: return # ENTERを押した時、終了する
             screen.disp.blit(timetxt, (50, 50)) # 記録表示
-            screen.disp.blit(endmessage, (300, screen.height/2)) # ENTERを押すよう誘導
+            screen.disp.blit(endmessage, (200, screen.height/2)) # ENTERを押すよう誘導
         ## まだラリーが続いているならば
         else:
             # ボールの移動
@@ -126,8 +128,8 @@ def main():
             
             # 現在の時間表示
             time += clock.get_rawtime()/1000
-            timetxt = fonto.render("{}秒ごとに加速 ".format(ball.df)+str(round(time, 2)), True, "white")
-            screen.disp.blit(timetxt, (50, 50))
+            timetxt = fonto.render("{}秒ごとに加速".format(ball.df)+str(round(time,2)),True,"blue") #大矢航輔
+            screen.disp.blit(timetxt,(50,50))
             #time.update()
             #time.draw(screen)
 
