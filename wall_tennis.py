@@ -13,7 +13,7 @@ class Screen: # main関数内の整理
 
 class Rectangle:
     #クラス変数
-    speed = 10 # 球の速度
+    speed = 10 # ボールの速度
     key_delta = {
                  pg.K_UP   : [0, -speed],
                  pg.K_DOWN : [0, +speed],
@@ -44,13 +44,13 @@ class Ball:
     # クラス変数
     vx, vy = (0, 0) # 他でも値を変えられるようにクラス変数で速度を補完
     def __init__(self, color, r, vxy, screen, df = 1):
-        # color: 爆弾円の色, r: 爆弾円の半径, 
+        # color: ボール円の色, r: ボール円の半径, 
         # vxy: 爆弾円の速度のタプル,
         # screen: 描画用Screenオブジェクト
-        self.image = pg.Surface((2*r,2*r)) # 爆弾用のSurface
+        self.image = pg.Surface((2*r,2*r)) # ボール用のSurface
         self.image.set_colorkey((0,0,0)) # 黒色部分を透過する
-        pg.draw.circle(self.image, color, (r,r), r)   # 爆弾用Surfaceに円を描く
-        self.rect = self.image.get_rect() # 爆弾用Rect
+        pg.draw.circle(self.image, color, (r,r), r)   # ボール用Surfaceに円を描く
+        self.rect = self.image.get_rect() # ボール用Rect
         # 初期位置。開始と同時に終わらないように、一番左の真ん中からスタートするようにする。
         self.rect.centerx = 2*r # 画面をこえてしまわないように0ではなくボールの半径以上は間をあける。念のため直径分。
         self.rect.centery = screen.rect.height/2
@@ -81,7 +81,7 @@ def main():
     clock = pg.time.Clock()
     
     # 下地
-    screen = Screen("black", (1600, 900), "壁打ちテニスゲーム")
+    screen = Screen("black", (1600, 900), "ボールを通すな！")
     screen.disp.blit(screen.image, (0,0))           
 
     # 自機
@@ -128,14 +128,12 @@ def main():
             time += clock.get_rawtime()/1000
             timetxt = fonto.render("{}秒ごとに加速 ".format(ball.df)+str(round(time, 2)), True, "white")
             screen.disp.blit(timetxt, (50, 50))
-            #time.update()
-            #time.draw(screen)
 
         pg.display.update()  # 画面の更新
         clock.tick(1000) 
     
 # 右以外の壁に当たったかどうかの判定
-def check_bound(sc_r, obj_r): # 画面用Rect, ｛こうかとん，爆弾｝Rect
+def check_bound(sc_r, obj_r): # 画面用Rect, ｛自機，ボール｝Rect
     # 画面内：+1 / 画面外：-1
     x, y = +1, +1
     if obj_r.left < sc_r.left: x = -1 # 左の壁に当たった場合、反射
