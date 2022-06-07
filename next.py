@@ -116,6 +116,7 @@ def main():
             key_states = pg.key.get_pressed()
             if key_states[pg.K_RETURN] == True: return # ENTERを押した時、終了する
             screen.disp.blit(timetxt, (50, 50)) # 記録表示
+            screen.disp.blit(a, (50, 150))
             screen.disp.blit(endmessage, (300, screen.height/2)) # ENTERを押すよう誘導
         ## まだラリーが続いているならば
         else:
