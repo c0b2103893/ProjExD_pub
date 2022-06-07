@@ -1,5 +1,6 @@
 import pygame as pg
 import sys
+import random
 
 class Screen: # main関数内の整理
     def __init__(self, color, wh, title): # 背景画像のパス
@@ -53,7 +54,8 @@ class Ball:
         self.rect = self.image.get_rect() # 爆弾用Rect
         # 初期位置。開始と同時に終わらないように、一番左の真ん中からスタートするようにする。
         self.rect.centerx = 2*r # 画面をこえてしまわないように0ではなくボールの半径以上は間をあける。念のため直径分。
-        self.rect.centery = screen.rect.height/2
+        #self.rect.centery = screen.rect.height/2
+        self.rect.centery = random.randint(0+r,screen.rect.height-r) #大矢航輔
         Ball.vx, Ball.vy = vxy # クラス変数に初速度を代入
         self.ivx, self.ivy = vxy # 計算で使うために、初速度を固定の値として取得 # Initial velocity
         self.df = df
