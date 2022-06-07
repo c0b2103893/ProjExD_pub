@@ -2,7 +2,7 @@ import pygame as pg
 import sys
 
 class Screen: # main関数内の整理
-    def __init__(self, color, wh, title): # 背景画像のパス
+    def __init__(self, color, wh, title):
         # fn: 背景画像のパス, wh: 幅高さのタプル title: 画面のタイトル
         pg.display.set_caption(title)
         self.width, self.height = wh # (1600, 900)
@@ -44,15 +44,15 @@ class Ball:
     # クラス変数
     vx, vy = (0, 0) # 他でも値を変えられるようにクラス変数で速度を補完
     def __init__(self, color, r, vxy, screen, df = 1):
-        # color: 爆弾円の色, r: 爆弾円の半径, 
-        # vxy: 爆弾円の速度のタプル,
-        # screen: 描画用Screenオブジェクト
-        self.image = pg.Surface((2*r,2*r)) # 爆弾用のSurface
+        # color: 円の色, r: 円の半径, 
+        # vxy: 円の速度のタプル,
+        # screen: ボール用Screenオブジェクト
+        self.image = pg.Surface((2*r,2*r)) # ボール用のSurface
         self.image.set_colorkey((0,0,0)) # 黒色部分を透過する
-        pg.draw.circle(self.image, color, (r,r), r)   # 爆弾用Surfaceに円を描く
-        self.rect = self.image.get_rect() # 爆弾用Rect
+        pg.draw.circle(self.image, color, (r,r), r)   # ボール用Surfaceに円を描く
+        self.rect = self.image.get_rect() # ボール用Rect
         # 初期位置。開始と同時に終わらないように、一番左の真ん中からスタートするようにする。
-        self.rect.centerx = 2*r # 画面をこえてしまわないように0ではなくボールの半径以上は間をあける。念のため直径分。
+        self.rect.centerx = 2*r # 画面を越えてしまわないように0ではなくボールの半径以上は間をあける。念のため直径分。
         self.rect.centery = screen.rect.height/2
         Ball.vx, Ball.vy = vxy # クラス変数に初速度を代入
         self.ivx, self.ivy = vxy # 計算で使うために、初速度を固定の値として取得 # Initial velocity
@@ -135,7 +135,7 @@ def main():
         clock.tick(1000) 
     
 # 右以外の壁に当たったかどうかの判定
-def check_bound(sc_r, obj_r): # 画面用Rect, ｛こうかとん，爆弾｝Rect
+def check_bound(sc_r, obj_r): # 画面用Rect, ｛ラケット，ボール｝Rect
     # 画面内：+1 / 画面外：-1
     x, y = +1, +1
     if obj_r.left < sc_r.left: x = -1 # 左の壁に当たった場合、反射
