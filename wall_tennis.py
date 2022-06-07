@@ -3,7 +3,7 @@ import sys
 import random
 
 class Screen: # main関数内の整理
-    def __init__(self, color, wh, title): # 背景画像のパス
+    def __init__(self, color, wh, title): 
         # fn: 背景画像のパス, wh: 幅高さのタプル title: 画面のタイトル
         pg.display.set_caption(title)
         self.width, self.height = wh # (1600, 900)
@@ -27,7 +27,7 @@ class Rectangle:
         self.width, self.height = wh
         self.image = pg.Surface((self.width,self.height)) # surface
         self.rect= self.image.get_rect() # rect
-        pg.draw.rect(self.image, color, (xy[0]-self.width, xy[1]-self.height, self.width, self.height))   # 爆弾用Surfaceに円を描く # pygame.draw.rect(Surface, color, (左上のｘ座標、左上のｙ座標、横幅、縦の幅), width=0): return Rec
+        pg.draw.rect(self.image, color, (xy[0]-self.width, xy[1]-self.height, self.width, self.height))   # ボール用Surfaceに円を描く # pygame.draw.rect(Surface, color, (左上のｘ座標、左上のｙ座標、横幅、縦の幅), width=0): return Rec
         self.image.fill(color)
         self.rect.center = xy # center系は元から組み込まれているためcenterx,centeryと変換できている（？）
     
@@ -45,13 +45,13 @@ class Ball:
     # クラス変数
     vx, vy = (0, 0) # 他でも値を変えられるようにクラス変数で速度を補完
     def __init__(self, color, r, vxy, screen, df = 1):
-        # color: 爆弾円の色, r: 爆弾円の半径, 
-        # vxy: 爆弾円の速度のタプル,
+        # color: ボールの色, r: ボール（円）の半径, 
+        # vxy: ボールの速度のタプル,
         # screen: 描画用Screenオブジェクト
-        self.image = pg.Surface((2*r,2*r)) # 爆弾用のSurface
+        self.image = pg.Surface((2*r,2*r)) # ボール用のSurface
         self.image.set_colorkey((0,0,0)) # 黒色部分を透過する
-        pg.draw.circle(self.image, color, (r,r), r)   # 爆弾用Surfaceに円を描く
-        self.rect = self.image.get_rect() # 爆弾用Rect
+        pg.draw.circle(self.image, color, (r,r), r)   # ボール用Surfaceに円を描く
+        self.rect = self.image.get_rect() # ボール用Rect
         # 初期位置。開始と同時に終わらないように、一番左の真ん中からスタートするようにする。
         self.rect.centerx = 2*r # 画面をこえてしまわないように0ではなくボールの半径以上は間をあける。念のため直径分。
         #self.rect.centery = screen.rect.height/2
@@ -130,7 +130,7 @@ def main():
             
             # 現在の時間表示
             time += clock.get_rawtime()/1000
-            timetxt = fonto.render("{}秒ごとに加速".format(ball.df)+str(round(time,2)),True,"blue") #大矢航輔
+            timetxt = fonto.render("{}秒ごとに加速".format(ball.df)+str(round(time,2)),True,"yellow") #大矢航輔
             screen.disp.blit(timetxt,(50,50))
             #time.update()
             #time.draw(screen)
@@ -139,7 +139,7 @@ def main():
         clock.tick(1000) 
     
 # 右以外の壁に当たったかどうかの判定
-def check_bound(sc_r, obj_r): # 画面用Rect, ｛こうかとん，爆弾｝Rect
+def check_bound(sc_r, obj_r): # 画面用Rect, ｛自機，ボール｝Rect
     # 画面内：+1 / 画面外：-1
     x, y = +1, +1
     if obj_r.left < sc_r.left: x = -1 # 左の壁に当たった場合、反射
