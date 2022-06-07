@@ -1,6 +1,7 @@
 import pygame as pg
 import sys
 import random
+import math
 
 class Screen: # main関数内の整理
     def __init__(self, color, wh, title): 
@@ -121,6 +122,8 @@ def main():
             if key_states[pg.K_RETURN] == True: return # ENTERを押した時、終了する
             screen.disp.blit(timetxt, (50, 50)) # 記録表示
             screen.disp.blit(endmessage, (200, screen.height/2)) # ENTERを押すよう誘導
+            lvltxt = fonto.render("速度{:2f}".format(math.sqrt(ball.vx**2 + ball.vy**2)),True,"yellow") #アライ
+            screen.disp.blit(lvltxt,(50,150))
         ## まだラリーが続いているならば
         else:
             # ボールの移動
@@ -132,8 +135,8 @@ def main():
             time += clock.get_rawtime()/1000
             timetxt = fonto.render("{}秒ごとに加速".format(ball.df)+str(round(time,2)),True,"yellow") #大矢航輔
             screen.disp.blit(timetxt,(50,50))
-            #time.update()
-            #time.draw(screen)
+            lvltxt = fonto.render("速度{:2f}".format(math.sqrt(ball.vx**2 + ball.vy**2)),True,"yellow") #アライ
+            screen.disp.blit(lvltxt,(50,150))
 
         pg.display.update()  # 画面の更新
         clock.tick(1000) 
