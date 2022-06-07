@@ -91,7 +91,7 @@ def main():
     rects = Rectangle("white", (1400, 400), (20, 200))
 
     # ボール
-    ball = Ball((255,0,0), 10, (+2, +2), screen, 5)
+    ball = Ball((255,0,0), 10, (+2, +2), screen, df=1)
     
     # 時間
     time = 0
@@ -148,16 +148,17 @@ def check_bound(sc_r, obj_r): # 画面用Rect, ｛自機，ボール｝Rect
     if obj_r.top  < sc_r.top  or sc_r.bottom < obj_r.bottom: y = -1 # 上下の壁に当たった場合、反射
     return x, y
 
+# check_bound_rectangleでの条件式を「<」から「<=」にすることでボールが入る隙間が無くなるのではないか？と考え実装。
 def check_bound_rectangle(rec_r, ball_r): # 長方形の自機に当たった場合、どの面でも反射するようにする
     x, y = +1, +1
     # 左右の側面に当たった時の判定
-    if rec_r.top < ball_r.centery < rec_r.bottom:
-        if rec_r.left < ball_r.right and ball_r.centerx < rec_r.centerx: x = -1 # 左側面に当たった場合の反射。主に使う面。
-        if ball_r.left < rec_r.right and rec_r.centerx < ball_r.centerx: x = -1 # 右側面に当たった場合の反射。今回のゲームの仕様では使われない。
+    if rec_r.top <= ball_r.centery <= rec_r.bottom:
+        if rec_r.left <= ball_r.right and ball_r.centerx <= rec_r.centerx: x = -1 # 左側面に当たった場合の反射。主に使う面。
+        if ball_r.left <= rec_r.right and rec_r.centerx <= ball_r.centerx: x = -1 # 右側面に当たった場合の反射。今回のゲームの仕様では使われない。
     # 上下の側面に当たった時の判定
-    if rec_r.left < ball_r.centerx < rec_r.right:
-        if rec_r.top < ball_r.bottom and ball_r.centery < rec_r.centery: y = -1 # 上側面に当たった場合の反射
-        if ball_r.top < rec_r.bottom and rec_r.centery < ball_r.centery: y = -1 # 下側面に当たった場合の反射
+    if rec_r.left <= ball_r.centerx <= rec_r.right:
+        if rec_r.top <= ball_r.bottom and ball_r.centery <= rec_r.centery: y = -1 # 上側面に当たった場合の反射
+        if ball_r.top <= rec_r.bottom and rec_r.centery <= ball_r.centery: y = -1 # 下側面に当たった場合の反射
     return x, y
 
 if __name__ == "__main__":
