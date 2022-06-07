@@ -1,5 +1,6 @@
 import pygame as pg
 import sys
+import random
 
 class Screen: # main関数内の整理
     def __init__(self, color, wh, title): # 背景画像のパス
@@ -53,7 +54,8 @@ class Ball:
         self.rect = self.image.get_rect() # 爆弾用Rect
         # 初期位置。開始と同時に終わらないように、一番左の真ん中からスタートするようにする。
         self.rect.centerx = 2*r # 画面をこえてしまわないように0ではなくボールの半径以上は間をあける。念のため直径分。
-        self.rect.centery = screen.rect.height/2
+        #self.rect.centery = screen.rect.height/2
+        self.rect.centery = random.randint(0+r,screen.rect.height-r) #大矢航輔
         Ball.vx, Ball.vy = vxy # クラス変数に初速度を代入
         self.ivx, self.ivy = vxy # 計算で使うために、初速度を固定の値として取得 # Initial velocity
         self.df = df
@@ -92,9 +94,11 @@ def main():
     
     # 時間
     time = 0
-    fonto = pg.font.SysFont('nsimsun', 100) # nsimsun meiryo
-    endmessage = fonto.render("Press Enter to Over", True, "white") # 終了後のメッセージ
+    fonto =pg.font.SysFont("nsimsun",70) # nsimsun meiryo
+    fonto2 = pg.font.SysFont('snapitc', 100) #大矢航輔
+    endmessage = fonto2.render("Press Enter to Over", True, "red") # 終了後のメッセージ #大矢航輔
     #time = Time(100, "white", "Press Enter to Over")
+    
 
     overflag = False # ゲームが終了するかの判断のためのフラッグ
 
@@ -116,7 +120,7 @@ def main():
             key_states = pg.key.get_pressed()
             if key_states[pg.K_RETURN] == True: return # ENTERを押した時、終了する
             screen.disp.blit(timetxt, (50, 50)) # 記録表示
-            screen.disp.blit(endmessage, (300, screen.height/2)) # ENTERを押すよう誘導
+            screen.disp.blit(endmessage, (200, screen.height/2)) # ENTERを押すよう誘導
         ## まだラリーが続いているならば
         else:
             # ボールの移動
@@ -126,8 +130,8 @@ def main():
             
             # 現在の時間表示
             time += clock.get_rawtime()/1000
-            timetxt = fonto.render("{}秒ごとに加速 ".format(ball.df)+str(round(time, 2)), True, "white")
-            screen.disp.blit(timetxt, (50, 50))
+            timetxt = fonto.render("{}秒ごとに加速".format(ball.df)+str(round(time,2)),True,"blue") #大矢航輔
+            screen.disp.blit(timetxt,(50,50))
             #time.update()
             #time.draw(screen)
 
